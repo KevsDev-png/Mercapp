@@ -1,0 +1,150 @@
+{% load static %}
+<link href="{% static 'css/factura.css' %}" rel="stylesheet">
+
+    <style>
+
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f0f2f5;
+        padding: 20px;
+        background-image: url(/static/css/Imagenes/Maracucao.png);
+    }
+
+    .factura-card {
+        background-color: white;
+        border-radius: 15px;
+        padding: 25px 30px;
+        width: 100%;
+        max-width: 400px;
+        margin: 50px auto;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    .factura-card label {
+        font-weight: 600;
+        margin-top: 10px;
+    }
+    
+    .factura-card input[type="text"],
+    .factura-card input[type="date"],
+    .factura-card input[type="file"],
+    .factura-card textarea {
+        width: 100%;
+        padding: 10px;
+        margin-top: 4px;
+        margin-bottom: 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 14px;
+    }
+    
+    .factura-card img {
+        display: block;
+        margin-top: 10px;
+        max-height: 200px;
+        border-radius: 10px;
+        border: 1px solid #ddd;
+    }
+    
+    .factura-card button {
+        width: 100%;
+        padding: 12px;
+        background-color: #12b218;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 15px;
+        transition: background 0.3s;
+    }
+    
+    .factura-card button:hover {
+        background-color: #0a8c0f;
+    }
+    
+    .factura-card .form-text {
+        font-size: 13px;
+        color: #555;
+    }
+    
+    .factura-card .cancelar-btn {
+        width: 100%;
+        padding: 12px;
+        background-color: #dc3545;
+        color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+    }
+    
+    .factura-card .cancelar-btn:hover {
+        background-color: #b02a37;
+    }
+    
+    
+    
+    </style>
+    
+    </head><body><div class="factura-card">
+        <div class="card-header bg-warning text-dark text-center mb-3">
+            <h2 class="mb-0">Editar Factura #</h2>
+        </div>
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if form.errors %}
+        <div style="color: red; margin-bottom: 10px;">
+            {{ form.errors }}
+        </div>
+    {% endif %}
+    <label for="proveedor">Proveedor:</label>
+    <select name="proveedor" id="proveedor" required>
+        <option value="">Seleccione un proveedor</option>
+        {% for proveedor in proveedores %}
+            <option value="{{ proveedor.id }}"
+                {% if factura.proveedor.id == proveedor.id %}selected{% endif %}>
+                {{ proveedor.nombre }} {{ proveedor.apellido }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <div class="mt-2">
+        <label for="id_imagen">Imagen Actual de la Factura:</label>
+        {% if factura.imagen and factura.imagen.url %}
+            <a href="{{ factura.imagen.url }}">{{ factura.imagen.name }}</a>
+            <img src="{{ factura.imagen.url }}" alt="Imagen actual" style="width: 100%; max-width: 400px; height: auto; border-radius: 10px; border: 1px solid #ddd;">
+        {% else %}
+            <span>No hay imagen</span>
+        {% endif %}
+    </div>
+
+
+
+    <label>Modificar:</label>
+    <div class="form-text" style="margin-top: 5px;">
+        Formatos aceptados: JPG, PNG, PDF. Dejar en blanco para mantener la imagen actual.
+    </div>
+    {{ form.imagen }}
+
+    <label for="id_descripcion">Descripción:</label>
+    {{ form.descripcion }}
+        <!-- Fecha de publicación solo lectura -->
+    <div class="mt-2">
+        <label>Fecha de publicación:</label>
+        <input type="text" value="{{ factura.fecha_publicacion|date:'d/m/Y H:i' }}" readonly class="form-control" style="background:#f5f5f5;">
+    </div>
+
+    <button type="submit">Actualizar Factura</button>
+    <a href="{% url 'factura' %}" class="cancelar-btn" style="width: 340px;">Cancelar</a>
+</form>
+
+        </div>
+    </body>
+</html>

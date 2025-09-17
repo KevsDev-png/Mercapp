@@ -1,0 +1,1069 @@
+{% load static %}
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogo de productos</title>
+	<link href="{% static 'css/interno.css' %}" rel="stylesheet">
+  <link rel="icon" href="{% static 'images/bolsa.ico' %}" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="{% static 'css/custom2.css' %}" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+          <div class="profile">
+              <div class="profile-image">
+                  <img src="{% static 'images/Admin.png' %}" alt="Perfil Admin">
+              </div>
+              <h3>{{ request.user.nombre }}</h3>
+              <p>Administrador</p>
+          </div>
+          <nav class="menu">
+              <ul>
+                  <li><a href="{% url 'dashboard' %}"  data-page="dashboard">
+                      <i class="material-icons">groups</i> 
+                      <span>PRINCIPAL</span>
+                  </a></li>
+                  <li><a href="{% url 'productos2' %}" data-page="productos">
+                      <i class="material-icons">inventory_2</i> 
+                      <span>PRODUCTOS</span>
+                  </a></li>
+                  <li><a href="{% url 'inventario' %}" data-page="inventario">
+                      <i class="material-icons">inventory</i> 
+                      <span>INVENTARIO</span>
+                  </a></li>
+                  <li><a href="{% url 'listar_clientes' %}" data-page="dashboard">
+                      <i class="material-icons">groups</i> 
+                      <span>CLIENTES</span>
+                  </a></li>
+                  <li><a href="{% url 'listar_proveedor' %}" data-page="dashboard">
+                      <i class="material-icons">groups</i> 
+                      <span>PROVEEDORES</span>
+                  </a></li>
+                  <li><a href="{% url 'trabajadores' %}"  data-page="dashboard">
+                      <i class="material-icons">groups</i> 
+                      <span>TRABAJADORES</span>
+                  </a></li>
+                  <li><a href="{% url 'factura' %}" data-page="recibos">
+                      <i class="material-icons">receipt</i> 
+                      <span>SOPORTE DE PAGOS</span>
+                  </a></li>
+                  <li><a href="{% url 'validacion_compras' %}" data-page="estado-compra">
+                      <i class="material-icons">payment</i> 
+                      <span>ESTADO DE COMPRA</span>
+                  </a></li>
+                  <li><a href="{% url 'copias_seguridad' %}" data-page="estado-compra">
+                      <i class="material-icons">payment</i> 
+                      <span>COPIAS SEGURIDAD</span>
+                  </a></li>
+              </ul>
+          </nav>
+      </aside>
+      <!-- Main Content -->
+      <main class="main-content">
+          <header class="top-bar">
+              <h1>Gestión productos</h1>
+              <div class="user-menu">
+
+                 <div id="accesibilidad-container">
+                    <button title="Accesibilidad" class="Accesibilidad">
+                        <img src="{% static 'images/accesibilidad.png' %}" class="icono-accesibilidad">
+                    </button>
+                    </div>
+
+                  <button title="Manual Administrador" class="boton-manual-administrador" onclick="descargarManual()">
+                        <img src="{% static 'images/signo.png' %}" alt="Icono Manual" class="icono-manual">
+                    </button>
+                  <i title="Cerrar Sesión" class="material-icons logout-icon">power_settings_new</i>
+              </div>
+          </header>
+</head>
+<style>
+ /* Estilos base para todos los dispositivos */
+.search-bar {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.search-bar input {
+  border: none;
+  background: transparent;
+  outline: none;
+  flex: 1;
+  font-size: 15px;
+  width: 100%;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 15px 0;
+}
+
+.products-header h1 {
+  text-align: center;
+  width: 100%;
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+
+/* Modal de imagen */
+.modal-imagen {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-imagen .modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+}
+
+.modal-imagen h2 {
+  text-align: center;
+  margin-top: 10%;
+  margin-bottom: 20px;
+  color: #28a745;
+  font-size: 1.5rem;
+}
+
+.modal-imagen form p {
+  margin-bottom: 15px;
+}
+
+.modal-imagen input,
+.modal-imagen textarea,
+.modal-imagen select {
+  border: 1px solid #ddd;
+  padding: 10px;
+  border-radius: 5px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.modal-imagen input:focus,
+.modal-imagen textarea:focus,
+.modal-imagen select:focus {
+  border-color: #28a745;
+  outline: none;
+}
+
+.modal-imagen .btn-primary,
+.modal-imagen .btn-secondary {
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+  margin: 10px;
+}
+
+.modal-imagen .btn-primary {
+  background-color: #28a745;
+}
+
+.modal-imagen .btn-primary:hover {
+  background-color: #218838;
+}
+
+.modal-imagen .btn-secondary {
+  background-color: #6c757d;
+}
+
+.modal-imagen .btn-secondary:hover {
+  background-color: #5a6268;
+}
+
+.modal-imagen .close-modal {
+  float: right;
+  font-size: 20px;
+  font-weight: bold;
+  color: #aaa;
+  cursor: pointer;
+}
+
+.modal-imagen .close-modal:hover {
+  color: #000;
+}
+
+.btn-eliminar_1 {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  text-decoration: none;
+  font-weight: 600;
+  color: white;
+  margin-left: 10px;
+  transition: background-color 0.3s;
+}
+
+/* Media queries para responsividad */
+/* Dispositivos pequeños (móviles, hasta 576px) */
+@media (max-width: 576px) {
+  .search-bar {
+    max-width: 100%;
+    padding: 6px 10px;
+  }
+  
+  .search-actions {
+    gap: 10px;
+  }
+  
+  .products-header h1 {
+    font-size: 1.5rem;
+  }
+  
+  .modal-imagen .modal-content {
+    margin: 10% auto;
+    padding: 15px;
+    width: 95%;
+  }
+  
+  .modal-imagen h2 {
+    font-size: 1.2rem;
+  }
+  
+  .modal-imagen .btn-primary,
+  .modal-imagen .btn-secondary {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  .btn-eliminar_1 {
+    margin-left: 0;
+    margin-top: 5px;
+    width: 100%;
+  }
+}
+
+/* Dispositivos medianos (tablets, 577px hasta 768px) */
+@media (min-width: 577px) and (max-width: 768px) {
+  .search-bar {
+    max-width: 90%;
+  }
+  
+  .search-actions {
+    gap: 15px;
+  }
+  
+  .modal-imagen .modal-content {
+    margin: 7% auto;
+    padding: 20px;
+    width: 90%;
+  }
+  
+  .modal-imagen .btn-primary,
+  .modal-imagen .btn-secondary {
+    width: auto;
+  }
+}
+
+/* Dispositivos grandes (desktops, 769px hasta 992px) */
+@media (min-width: 769px) and (max-width: 992px) {
+  .search-bar {
+    max-width: 70%;
+  }
+}
+
+/* Botón Subir Producto */
+.Subir-interno {
+    background-color: #4eae3a;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(78, 174, 58, 0.2);
+}
+
+.Subir-interno:hover {
+    background-color: #42963a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(78, 174, 58, 0.3);
+}
+
+.Subir-interno:active {
+    background-color: #3a8532;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(78, 174, 58, 0.2);
+}
+
+.Subir-interno:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(78, 174, 58, 0.4);
+}
+
+/* Botón Cancelar */
+.Cancelar-interno {
+    background-color: #525252;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(82, 82, 82, 0.2);
+    margin-left: 12px;
+}
+
+.Cancelar-interno:hover {
+    background-color: #3a3a3a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(82, 82, 82, 0.3);
+}
+
+.Cancelar-interno:active {
+    background-color: #2a2a2a;
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(82, 82, 82, 0.2);
+}
+
+.Cancelar-interno:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(82, 82, 82, 0.4);
+}
+
+/* Contenedor para los botones (opcional) */
+.botones-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Responsive - Para pantallas pequeñas */
+@media (max-width: 768px) {
+    .Subir-interno,
+    .Cancelar-interno {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+        margin-bottom: 8px;
+    }
+    
+    .Cancelar-interno {
+        margin-left: 0;
+    }
+    
+    .botones-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+#btn-agregar-medida {
+  margin-top: 10px;
+  background: linear-gradient(135deg, #42963a 0%, #4aa33f 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(66, 150, 58, 0.3);
+  overflow: hidden;
+}
+
+#btn-agregar-medida::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+#btn-agregar-medida::after {
+  content: "+";
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+#btn-agregar-medida:hover {
+  background: linear-gradient(135deg, #3d8533 0%, #458a3a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(66, 150, 58, 0.4);
+}
+
+#btn-agregar-medida:hover::before {
+  left: 100%;
+}
+
+#btn-agregar-medida:hover::after {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+#btn-agregar-medida:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(66, 150, 58, 0.4);
+  background: linear-gradient(135deg, #367229 0%, #3f7d32 100%);
+}
+
+#btn-agregar-medida:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(66, 150, 58, 0.3), 0 0 0 3px rgba(66, 150, 58, 0.3);
+}
+
+#btn-agregar-medida:disabled {
+  background: #a8a8a8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+#btn-agregar-medida:disabled::after {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.Guardar {
+  margin-top: 10px;
+  margin-bottom: 5px;
+  background: linear-gradient(135deg, #42963a 0%, #4aa33f 100%);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 12px rgba(66, 150, 58, 0.3);
+  overflow: hidden;
+}
+
+.Guardar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.Guardar::after {
+  content: "";
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z'/%3E%3Cpolyline points='17,21 17,13 7,13 7,21'/%3E%3Cpolyline points='7,3 7,8 15,8'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  order: -1;
+  transition: all 0.3s ease;
+}
+
+.Guardar:hover {
+  background: linear-gradient(135deg, #3d8533 0%, #458a3a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(66, 150, 58, 0.4);
+}
+
+.Guardar:hover::before {
+  left: 100%;
+}
+
+.Guardar:hover::after {
+  transform: scale(1.1);
+}
+
+.Guardar:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(66, 150, 58, 0.4);
+  background: linear-gradient(135deg, #367229 0%, #3f7d32 100%);
+}
+
+.Guardar:focus {
+  outline: none;
+  box-shadow: 0 4px 12px rgba(66, 150, 58, 0.3), 0 0 0 3px rgba(66, 150, 58, 0.3);
+}
+
+.Guardar:disabled {
+  background: #a8a8a8;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.Guardar:disabled::after {
+  opacity: 0.5;
+}
+</style>
+
+  
+
+            <!-- Contenido de Productos -->
+            <div class="products-header">
+              <h1>Catálogo de Productos</h1>
+              <div class="search-actions">
+                <div class="search-bar">
+                  <input type="text" id="search-producto" placeholder="Buscar productos...">
+                  <button class="search-button">
+                    <i class="material-icons">search</i>
+                  </button>
+                </div>
+                
+                
+                <div class="toolbar-buttons">
+
+                  <button class="open-modal-btn" onclick="abrirModalImagen()">Subir Nuevo Producto
+                     <span class="button__text">Add Item</span>
+                     <span class="button__icon"><svg class="svg" fill="none" height="24" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></svg></span>
+                  </button>
+
+                  <a href="{% url 'Productos' %}" class="ver_publicados">Ver Publicados
+                     <div class="eye-container">
+                      <div class="eye">
+                          <div class="pupil"></div>
+                      </div>
+                     </div>
+                  </a>
+
+                  <div id="modalSubirNuevaImagen" class="modal-imagen">
+                    <div class="modal-content">
+                      <span class="close-modal" onclick="cerrarModalImagen()">&times;</span>
+                      <h2>Subir Nuevo Producto</h2>
+                      <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <p>
+                          <label for="id_imagen">Imagen:</label>
+                          <input type="file" name="imagen" accept="image/*" required id="id_imagen">
+                        </p>
+                        <p>
+                          <label for="id_nombre">Nombre:</label>
+                          <input type="text" name="nombre" maxlength="100" required id="id_nombre">
+                        </p>
+                        <p>
+                          <label for="id_descripcion">Descripción:</label>
+                          <textarea name="descripcion" cols="40" rows="10" required id="id_descripcion"></textarea>
+                        </p>
+                        <p>
+                          <label for="id_tipoproducto">Tipo de Producto:</label>
+                          <select name="tipoproducto" id="id_tipoproducto" required>
+                            <option value="frutas">Frutas</option>
+                            <option value="verduras">Verduras</option>
+                            <option value="tuberculos">Tubérculos</option>
+                            <option value="hortalizas">Hortalizas</option>
+                          </select>
+                        </p>
+                        <p>
+                          <label for="id_origen">Origen:</label>
+                          <input type="text" name="origen" maxlength="100" required id="id_origen">
+                        </p>
+                        <p>
+                          <label for="id_unidad">Unidad:</label>
+                          <input type="number" name="unidad" step="any" required id="id_unidad">
+                        </p>
+                        <p>
+                          <label for="id_stock">Stock:</label>
+                          <input type="number" name="stock" required id="id_stock">
+                        </p>
+                        <p>
+                          <label for="id_precio">Precio:</label>
+                          <input type="number" name="precio" step="0.01" required id="id_precio">
+                        </p>
+                        <p style="display: flex; align-items: flex-start; gap: 4px;">
+                          <label for="id_publicado" style="margin: 0;">Publicado:</label>
+                          <input type="checkbox" name="publicado" id="id_publicado">
+                        </p>
+                          <p>
+                            <label for="id_medida">Medida:</label>
+                            <select name="medida" id="id_medida" required>
+                              {% for medida in medidas %}
+                                <option value="{{ medida.id }}">{{ medida.nombre }}</option>
+                              {% endfor %}
+                            </select>
+                          <button id="btn-agregar-medida" type="button">Agregar nueva medida</button>
+                          </p>
+                          <div id="nueva-medida-container" style="display:none;">
+                            <input type="text" id="nueva-medida-input" placeholder="Nueva medida">
+                            <button class="Guardar" type="button" onclick="agregarNuevaMedida()">Guardar</button>
+                          </div>
+
+                        <div class="product-actions">
+                          <button type="submit" class="Subir-interno">Subir Producto</button>
+                        <a href="{% url 'productos2' %}" class="Cancelar-interno">Cancelar</a>
+                        </div>
+
+                      </form>
+                    </div>
+                  </div>
+  
+
+                    <script>
+                      function abrirModalImagen() {
+                        document.getElementById("modalSubirNuevaImagen").style.display = "block";
+                      }
+
+                      function cerrarModalImagen() {
+                        document.getElementById("modalSubirNuevaImagen").style.display = "none";
+                      }
+
+                      window.addEventListener("click", function(event) {
+                        const modal = document.getElementById("modalSubirNuevaImagen");
+                        if (event.target === modal) {
+                          cerrarModalImagen();
+                        }
+                      });
+                    </script>
+                      <br>
+                    </div>
+                  </div>
+
+                  <script>
+                    function abrirModal() {
+                      document.getElementById("modalSubirImagen").style.display = "block";
+                    }
+
+                    function cerrarModal() {
+                      document.getElementById("modalSubirImagen").style.display = "none";
+                    }
+
+                    window.onclick = function(event) {
+                      const modal = document.getElementById("modalSubirImagen");
+                      if (event.target === modal) {
+                        cerrarModal();
+                      }
+                    }
+                  </script>
+
+                
+                </div>
+
+            <div class="products-container">
+              <!-- Frutas -->
+              <h2>Frutas</h2>
+            <div class="products-grid">
+                {% for productos in frutas %}
+                  <div class="product-card">
+                      {% if productos.imagen %}
+                          <img src="{{ productos.imagen.url }}" class="product-image-container" alt="{{ productos.nombre_producto }}">
+                      {% else %}
+                          <div class="card-img-top text-center p-3">No hay imagen disponible</div>
+                      {% endif %}
+                      <h3 class="nombre-producto">{{ productos.nombre }}</h3>
+                      <p>{{ productos.descripcion }}</p>
+                      <p>Precio: ${{ productos.precio }}</p>
+                      <div class="d-grid gap-2">
+                          <!-- Botón de Editar -->
+                          <a href="{% url 'editar_producto' productos.id %}" class="Editar">
+                          <span class="texto">Editar</span>
+                          <div class="pencil-container">
+                              <svg class="pencil-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                              </svg>
+                          </div>
+                          </a>
+                          <!-- Botones de Habilitar/Inhabilitar -->
+                          {% if productos.habilitado %}
+                              <a href="{% url 'inhabilitar_producto' productos.id %}" class="inhabilitarproduct2">Inhabilitar</a>
+                          {% else %}
+                              <a href="{% url 'habilitar_producto' productos.id %}" class="habilitarproduct2">Habilitar</a>
+                          {% endif %}
+
+                          <!-- Botones de Publicar/No Publicar -->
+                          {% if not productos.publicado %}
+                              <button class="btn btn-info" onclick="cambiarEstado({{ productos.id }}, 'publicar', this)">Publicar</button>
+                          {% else %}
+                              <button class="btn btn-secondary" onclick="cambiarEstado({{ productos.id }}, 'quitar', this)">No Publicar</button>
+                          {% endif %}
+                      </div>
+                  </div>
+                  {% empty %}
+                  <p>No hay frutas disponibles.</p>
+                {% endfor %}
+            </div>
+              <!-- Verduras -->
+              <h2>Verduras</h2>
+              <div class="products-grid">
+                {% for productos in verduras %}
+                     <div class="product-card">
+                    {% if productos.imagen %}
+                        <img src="{{ productos.imagen.url }}" class="product-image-container" alt="{{ productos.nombre_producto }}">
+                    {% else %}
+                        <div class="card-img-top text-center p-3">No hay imagen disponible</div>
+                    {% endif %}
+                    <h3 class="nombre-producto">{{ productos.nombre }}</h3>
+                    <p>{{ productos.descripcion }}</p>
+                    <p>Precio: ${{ productos.precio }}</p>
+                    <div class="d-grid gap-2">
+                        <!-- Botón de Editar -->
+                          <a href="{% url 'editar_producto' productos.id %}" class="Editar">
+                          <span class="texto">Editar</span>
+                          <div class="pencil-container">
+                              <svg class="pencil-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                              </svg>
+                          </div>
+                          </a>
+                        <!-- Botones de Habilitar/Inhabilitar -->
+                        {% if productos.habilitado %}
+                            <a href="{% url 'inhabilitar_producto' productos.id %}"class="inhabilitarproduct2">Inhabilitar</a>
+                        {% else %}
+                            <a href="{% url 'habilitar_producto' productos.id %}"class="habilitarproduct2">Habilitar</a>
+                        {% endif %}
+
+                        <!-- Botones de Publicar/No Publicar -->
+                        {% if not productos.publicado %}
+                             <button class="btn btn-info" onclick="cambiarEstado({{ productos.id }}, 'publicar', this)">Publicar </button>
+                        {% else %}
+                            <button class="btn btn-secondary" onclick="cambiarEstado({{ productos.id }}, 'quitar', this)">No Publicar</button>
+                        {% endif %}
+                    </div>
+                </div>
+                {% empty %}
+                <p>No hay frutas disponibles.</p>
+                {% endfor %}
+            </div>
+              <!-- Tubérculos -->
+              <h2>Tuberculos</h2>
+              <div class="products-grid">
+                {% for productos in tuberculos %}
+                <div class="product-card">
+                  {% if productos.imagen %}
+                    <img src="{{ productos.imagen.url }}" class="product-image-container" class="product-image" alt="{{ producto.nombre }}">
+                  {% else %}
+                    <div class="card-img-top text-center p-3">No hay imagen disponible</div>
+                  {% endif %}
+                  <h3 class="nombre-producto">{{ productos.nombre }}</h3>
+                  <p>{{ productos.descripcion }}</p>
+                  <p>Precio: ${{ productos.precio }}</p>
+                  <div class="d-grid gap-2">
+                     <a href="{% url 'editar_producto' productos.id %}" class="Editar">
+                          <span class="texto">Editar</span>
+                          <div class="pencil-container">
+                              <svg class="pencil-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                              </svg>
+                          </div>
+                          </a>
+
+                      {% if productos.habilitado %}
+                            <a href="{% url 'inhabilitar_producto' productos.id %}" class="inhabilitarproduct2">Inhabilitar</a>
+                        {% else %}
+                            <a href="{% url 'habilitar_producto' productos.id %}"class="habilitarproduct2">Habilitar</a>
+                        {% endif %}
+
+                    {% if not productos.publicado %}
+                             <button class="btn btn-info" onclick="cambiarEstado({{ productos.id }}, 'publicar', this)">Publicar </button>
+                        {% else %}
+                            <button class="btn btn-secondary" onclick="cambiarEstado({{ productos.id }}, 'quitar', this)">No Publicar</button>
+                        {% endif %}
+                  </div>
+                </div>
+                {% empty %}
+                <p>No hay hortalizas disponibles.</p>
+                {% endfor %}
+              </div>
+
+              <!-- Hortalizas -->
+              <h2>Hortalizas</h2>
+              <div class="products-grid">
+                {% for productos in hortalizas %}
+                  <div class="product-card">
+                        {% if productos.imagen %}
+                            <img src="{{ productos.imagen.url }}" class="product-image-container" alt="{{ productos.nombre_producto }}">
+                        {% else %}
+                            <div class="card-img-top text-center p-3">No hay imagen disponible</div>
+                        {% endif %}
+                        <h3 class="nombre-producto">{{ productos.nombre }}</h3>
+                        <p>{{ productos.descripcion }}</p>
+                        <p>Precio: ${{ productos.precio }}</p>
+                        <div class="d-grid gap-2">
+                             <a href="{% url 'editar_producto' productos.id %}" class="Editar">
+                          <span class="texto">Editar</span>
+                          <div class="pencil-container">
+                              <svg class="pencil-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                  <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                              </svg>
+                          </div>
+                          </a>
+                            {% if productos.habilitado %}
+                                <a href="{% url 'inhabilitar_producto' productos.id %}" class="inhabilitarproduct2">Inhabilitar</a>
+                            {% else %}
+                                <a href="{% url 'habilitar_producto' productos.id %}" class="habilitarproduct2">Habilitar</a>
+                            {% endif %}
+                            {% if not productos.publicado %}
+                                <button class="btn btn-info" onclick="cambiarEstado({{ productos.id }}, 'publicar', this)">Publicar</button>
+                            {% else %}
+                                <button class="btn btn-secondary" onclick="cambiarEstado({{ productos.id }}, 'quitar', this)">No Publicar</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p>No hay verduras disponibles.</p>
+                    {% endfor %}
+                </div>
+          </main>
+    </div>
+
+  </div>
+  </section>
+    <script>
+      
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+      const csrftoken = getCookie('csrftoken');
+  
+      
+      document.addEventListener("DOMContentLoaded", function(){
+        const searchInput = document.getElementById("search-producto");
+        const productosContainer = document.getElementById("productos-container");
+  
+        searchInput.addEventListener("input", function(){
+          const query = searchInput.value;
+          
+          fetch("/busqueda_ajax/?query=" + encodeURIComponent(query))
+            .then(response => response.json())
+            .then(data => {
+               productosContainer.innerHTML = data.html;
+            })
+            .catch(error => console.log('Error en la búsqueda AJAX:', error));
+        });
+      });
+  
+  
+      function cambiarEstado(productoId, accion, btn) {
+        let url = '';
+        if (accion === 'publicar') {
+          url = `/publicar_producto/${productoId}/`;
+        } else if (accion === 'quitar') {
+          url = `/quitar_publicidad/${productoId}/`;
+        }
+        
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrftoken
+          },
+          body: JSON.stringify({}) 
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            
+            if (accion === 'publicar') {
+              btn.innerText = 'No Publicar';
+              btn.classList.remove('btn-info');
+              btn.classList.add('btn-secondary');
+              btn.setAttribute('onclick', `cambiarEstado(${productoId}, 'quitar', this)`);
+            } else {
+              btn.innerText = 'Publicar';
+              btn.classList.remove('btn-secondary');
+              btn.classList.add('btn-info');
+              btn.setAttribute('onclick', `cambiarEstado(${productoId}, 'publicar', this)`);
+            }
+          } else {
+            console.error('Error al cambiar el estado');
+          }
+        })
+        .catch(error => console.error('Error en la petición AJAX:', error));
+      }
+    </script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script>
+      document.getElementById("back-to-top").addEventListener("click", function(e) {
+          e.preventDefault();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+  </script>
+  <script>
+    function abrirModalImagen() {
+      document.getElementById("modalSubirNuevaImagen").style.display = "block";
+    }
+
+    function cerrarModalImagen() {
+      document.getElementById("modalSubirNuevaImagen").style.display = "none";
+    }
+
+    window.addEventListener("click", function(event) {
+      const modal = document.getElementById("modalSubirNuevaImagen");
+      if (event.target === modal) {
+        cerrarModalImagen();
+      }
+    });
+  </script>
+    <br>
+  </div>
+</div>
+
+<script>
+  function abrirModal() {
+    document.getElementById("modalSubirImagen").style.display = "block";
+  }
+
+  function cerrarModal() {
+    document.getElementById("modalSubirImagen").style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    const modal = document.getElementById("modalSubirImagen");
+    if (event.target === modal) {
+      cerrarModal();
+    }
+  }
+</script>
+            
+<div class="facturas-grid">
+  {% include 'accounts/Modal_part_eliminar.html' %}
+</div>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const searchInput = document.getElementById("search-producto");
+    const productCards = document.querySelectorAll(".product-card");
+
+    searchInput.addEventListener("input", function () {
+        const filtro = searchInput.value.trim().toLowerCase();
+
+        productCards.forEach(card => {
+            const nombre = card.querySelector(".nombre-producto");
+            if (nombre) {
+                const texto = nombre.textContent.toLowerCase();
+                if (texto.includes(filtro)) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        });
+    });
+});
+</script>
+<script src="{% static 'js/manualadministrador.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  document.getElementById('btn-agregar-medida').addEventListener('click', function() {
+    document.getElementById('nueva-medida-container').style.display = 'block';
+  });
+
+  document.getElementById('nueva-medida-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      agregarNuevaMedida();
+    }
+  });
+});
+function agregarNuevaMedida() {
+  const nombre = document.getElementById('nueva-medida-input').value.trim();
+  if (!nombre) {
+    alert('Ingrese un nombre para la medida');
+    return;
+  }
+  fetch("{% url 'agregar_medida' %}", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-CSRFToken": "{{ csrf_token }}"
+    },
+    body: JSON.stringify({ nombre: nombre })
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.id) {
+      const select = document.getElementById('id_medida');
+      const option = document.createElement('option');
+      option.value = data.id;
+      option.text = data.nombre;
+      option.selected = true;
+      select.appendChild(option);
+      document.getElementById('nueva-medida-input').value = '';
+      document.getElementById('nueva-medida-container').style.display = 'none';
+    } else {
+      alert(data.error || 'Error al agregar la medida');
+    }
+  })
+  .catch(() => alert('Error de red al agregar la medida'));
+}
+</script>
+</body>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="{% static 'js/siennadmin.js' %}"></script>
+{% if messages %}
+<script>
+  {% for message in messages %}
+    Swal.fire({
+      icon: '{% if message.tags == "success" %}success{% else %}error{% endif %}',
+      title: '{{ message }}',
+      showConfirmButton: true,
+      timer: 3500
+    });
+  {% endfor %}
+</script>
+{% endif %}
+</html> 

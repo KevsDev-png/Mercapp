@@ -1,0 +1,467 @@
+@font-face {
+	font-family: 'Poppins';
+	src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+  }
+
+@font-face {
+	font-family: 'Poppins';
+	src: url('../fonts/Poppins-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+  }
+  
+
+
+body {
+    background-image: url('/static/images/Fondoadminemple.jpeg');
+    margin: 0;
+    background-image: cover;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    display: flex;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+ 
+}
+
+.navbar fixed-top navbar-expand-lg navbar-dark bg-light top-nav fixed-top{
+	font-family: 'Poppins', sans-serif;
+	font-weight: 300;
+    font-weight: normal;
+}
+
+
+.login-container {
+    position: relative;
+    margin-top: 12%;
+    width: 800px;
+    height: 572px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    display: flex;
+    
+}
+
+.Izquierda {
+    width: 50%;
+    background-color: #fff;
+    padding: 10%;
+    position: relative;
+    overflow: hidden;
+}
+
+.Derecha {
+    width: 50%;
+    padding: 30%;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 2s ease-in-out;
+    
+}
+
+.parteiniciar {
+    position: absolute; /* Cambiado a absolute */
+    top:-10px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px;
+    transition: transform 0.5s ease-in-out;
+    visibility: visible;
+}
+
+.Client-form {
+    transform: translateX(0);
+}
+
+.admin-form {
+    transform: translateX(100%);
+}
+
+.forgot-form {
+    transform: translateX(100%);
+}
+
+.switch-container {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+}
+
+.switch-btn {
+    border: none;
+    position: relative;
+    background-color: #4eae3a;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+}
+
+.switch-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+h2 {
+    color: #333;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.3rem;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"],
+select.controls {
+    width: 100%;
+    padding: 12px 40px 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+select.controls:focus {
+    border-color: #795548;
+    outline: none;
+}
+
+.Iniciar, .Regreso {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+}
+
+.Iniciar {
+    background-color: #795548;
+    color: white;
+}
+
+.Iniciar:hover {
+    background-color: #5d4037;
+}
+
+.Regreso {
+    background-color: transparent;
+    border: 1px solid #795548;
+    color: #795548;
+}
+
+.Regreso:hover {
+    background-color: #f5f5f5;
+}
+
+#Mensaje {
+    text-align: center;
+    margin-top: -9px;
+    font-size: 14px;
+    color: #777;
+}
+
+a {
+  color: #4eae3a;
+  text-decoration: none
+}
+
+#registro, .forgot-link {
+    color: #795548;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    /*Hola*/
+}
+
+#registro:hover, .forgot-link:hover {
+    text-decoration: underline;
+}
+
+.slide-out-left {
+    animation: slideOutLeft 0.5s forwards;
+}
+
+.slide-in-right {
+    animation: slideInRight 0.5s forwards;
+}
+
+.slide-out-right {
+    animation: slideOutRight 0.5s forwards;
+}
+
+.slide-in-left {
+    animation: slideInLeft 0.5s forwards;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+@keyframes slideOutLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+
+@keyframes slideInRight {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes slideOutRight {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes slideInLeft {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0); }
+}
+@keyframes slideInLeft {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 909px) {
+    .login-container {
+      margin-top: 50%;
+      flex-direction: column;
+      margin-bottom: 50%;
+    }
+  
+    .Izquierda, .Derecha {
+      width: 100%;
+    }
+  
+    .parteiniciar {
+      position: relative;
+    }
+  
+    .Derecha {
+      display: none; /* Oculta solo la imagen de fondo */
+    }
+  
+    /* Asegura que el formulario del administrador sea visible */
+    .admin-form {
+      display: block;
+      top: -110%;
+    }
+  
+    /* Asegura que el formulario 'forgot-form' sea visible */
+    .forgot-form {
+      top: -188%; /* Ajusta la posición si es necesario */
+      padding-left: 20%;
+    }
+
+  }
+
+  /* Añadir estas reglas al archivo AdminEmpleClient.css para mejorar la visualización del div de imagen */
+
+
+/* Agregar una clase para la imagen de carga fallida */
+.image-fallback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #f5f5f5;
+    color: #777;
+    font-size: 14px;
+    font-style: italic;
+}
+
+/* Mejorar la visibilidad de los botones de cambio */
+.switch-btn {
+    border: none;
+    position: relative;
+    background-color: #4eae3a;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.3s;
+    margin-left: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.switch-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* Mejorar la visibilidad del mensaje de error */
+p[style="color: red;"] {
+    background-color: rgba(255, 235, 235, 0.7);
+    border-radius: 5px;
+    font-weight: 500;
+    margin-top: -16px;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+label{
+    color: black;
+}
+
+select {
+    border: none;
+    background-color: #4eae3a;
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 500;
+    padding: 0.2rem 2.7rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    transform: translate(1) translate(0, 0);
+    transition: transform 225ms, box-shadow 225ms;
+    margin-bottom: 10px;
+  }
+  
+  select:hover {
+    transform: scale(1.05) translate(0, -0.15rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.35);
+  }
+  
+  select:active {
+    transform: scale(1) translate(0, 0.15rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    color: #fff;
+  }
+  
+  /* Estilos del botón flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 151px;
+			right: 27px;
+			width: 55px;
+			height: 55px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            border: none;
+            outline: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+            background: #128c7e;
+        }
+
+        .whatsapp-float:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* Imagen de WhatsApp */
+        .whatsapp-icon {
+            width: 35px;
+            height: 35px;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover .whatsapp-icon {
+            transform: rotate(10deg);
+        }
+
+        /* Animación de pulso */
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #25d366;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        /* Tooltip opcional */
+        .whatsapp-float .tooltip {
+            position: absolute;
+            right: 85px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .whatsapp-float .tooltip::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left-color: #333;
+        }
+
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(-10px);
+        }

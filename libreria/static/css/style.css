@@ -1,0 +1,442 @@
+@font-face {
+	font-family: 'Poppins';
+	src: url('../fonts/Poppins-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+  }
+
+  @font-face {
+	font-family: 'Poppins';
+	src: url('../fonts/Poppins-Light.ttf') format('truetype');
+	font-weight: 300;
+	font-style: normal;
+  }
+  
+.navbar fixed-top navbar-expand-lg navbar-dark bg-light top-nav fixed-top{
+	font-family: 'Poppins', sans-serif;
+	font-weight: 300;
+	font-weight: normal;
+}
+ 
+body {
+  padding-top: 54px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #4e3914;
+  overflow: auto; 
+  background-size: cover;
+  object-fit: cover;
+}
+
+@media (min-width:576px) {
+  body {
+	position: relative;
+	background-size: 100%;
+	object-fit: cover;
+  }
+}
+
+a.btn-primary{
+	background-color: #4eae3a;
+	border-color: #4eae3a;
+}
+a.btn-primary:hover{
+	background-color: #5ec549;
+	border-color: #5ec549;
+}
+button.btn-primary{
+	background-color: #4eae3a;
+	border-color: #4eae3a;
+}
+button.btn-primary:hover{
+	background-color: #5ec549;
+	border-color: #5ec549;
+}
+
+a.btn-secondary{
+	background-color: #4eae3a;
+	border-color: #4eae3a;
+}
+a.btn-secondary:hover{
+	background-color: #5ec549;
+	border-color: #5ec549;
+}
+button.btn-secondary{
+	background-color: #4eae3a;
+	border-color: #4eae3a;
+}
+button.btn-secondary:hover{
+	background-color: #5ec549;
+	border-color: #5ec549;
+}
+
+.top-nav{
+	background-color: #ffffff !important;
+}
+.navbar-expand-lg.top-nav .navbar-nav .nav-link{
+
+	padding: 10px 15px;
+	color: #4e3914;
+	font-size: 14px;
+	font-weight: 300;
+	text-transform: uppercase;
+}
+.navbar-expand-lg.top-nav .navbar-nav .nav-link:hover{
+	background: #4eae3a;
+	color: #ffffff;
+	border-radius: 4.8px;
+}
+.navbar-expand-lg.top-nav .navbar-nav .nav-link.active{
+	background: #4eae3a;
+	color: #ffffff;
+	border-radius: 4.8px;
+}
+.navbar-expand-lg.top-nav .navbar-nav .dropdown-menu{
+	margin: 0px;
+	box-shadow: 3px 5px 15px rgba(0,0,0, .15);
+	border: none;
+	padding: 20px;
+}
+.navbar-expand-lg.top-nav .navbar-nav .dropdown-menu .dropdown-item{
+	font-size: 14px;
+	padding: 0px;
+	padding-bottom: 15px;
+	font-weight: 300;
+}
+.navbar-expand-lg.top-nav .navbar-nav .dropdown-menu .dropdown-item:last-child{
+	padding: 0px;
+}
+.navbar-expand-lg.top-nav .navbar-nav .dropdown-menu .dropdown-item:hover{
+	background: none;
+	color: #4eae3a;
+}
+.top-nav .navbar-toggler{
+	color: #4e3914;
+	border-color: #4e3914;
+}
+.top-nav .navbar-toggler:hover{
+	color: #4eae3a;
+	border-color: #4eae3a;
+}
+
+.navbar-letra{
+	margin-left: 20px;
+	padding: 2px;
+}
+.slider-main .carousel .carousel-inner .carousel-item:before{
+	content: "";
+	position: absolute;
+	background: rgba(0,0,0,0.5);
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	background-size: cover;
+}
+.carousel-item {
+  height: 88vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+ .Ayuda {
+    position: fixed;
+    bottom: 82px;
+    right: 24px; /* Mantiene un posicionamiento derecho consistente */
+    width: 61px;
+    height: 62px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.Ayuda:hover {
+    transform: scale(1.1);
+}
+
+.Ayuda img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.manual-cliente {
+    position: fixed;
+    bottom: 19px;
+    right: 28px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 1000;
+    color: black;
+    /* Considera agregar un max-width si el contenido puede ser muy amplio */
+    /* max-width: 300px; */
+}
+
+.manual-cliente::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    right: 15px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 15px solid #f9f9f9;
+    filter: drop-shadow(2px -2px 2px rgba(0, 0, 0, 0.2));
+    display: none;
+    z-index: 1001;
+}
+
+.manual-cliente.mostrar {
+    display: block;
+}
+
+.manual-cliente.mostrar::before {
+    display: block;
+}
+
+/* Estilos del botón flotante de WhatsApp */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 151px;
+			right: 27px;
+			width: 55px;
+			height: 55px;
+            background: #25d366;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            text-decoration: none;
+            border: none;
+            outline: none;
+        }
+
+        .whatsapp-float:hover {
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+            background: #128c7e;
+        }
+
+        .whatsapp-float:active {
+            transform: translateY(-2px) scale(1.05);
+        }
+
+        /* Imagen de WhatsApp */
+        .whatsapp-icon {
+            width: 35px;
+            height: 35px;
+            transition: transform 0.3s ease;
+        }
+
+        .whatsapp-float:hover .whatsapp-icon {
+            transform: rotate(10deg);
+        }
+
+        /* Animación de pulso */
+        .whatsapp-float::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #25d366;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.2);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        /* Tooltip opcional */
+        .whatsapp-float .tooltip {
+            position: absolute;
+            right: 85px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #333;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 25px;
+            font-size: 14px;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .whatsapp-float .tooltip::after {
+            content: '';
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left-color: #333;
+        }
+
+        .whatsapp-float:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(-50%) translateX(-10px);
+        }
+
+        /* Estilo para el recordatorio de WhatsApp en forma de nube */
+.whatsapp-reminder {
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    color: #333333;
+    padding: 30px 40px;
+    border-radius: 50px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: center;
+    position: relative;
+    overflow: visible;
+    animation: float 3s ease-in-out infinite;
+}
+
+/* Crear la forma de nube con pseudo-elementos */
+.whatsapp-reminder::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.whatsapp-reminder::after {
+    content: '';
+    position: absolute;
+    top: -25px;
+    right: 30px;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 50%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+/* Crear más elementos de nube */
+.whatsapp-reminder .cloud-element {
+    position: absolute;
+    background: linear-gradient(135deg, #f8f9fa, #ffffff);
+    border-radius: 50%;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.whatsapp-reminder .cloud-1 {
+    top: -10px;
+    left: 60px;
+    width: 40px;
+    height: 40px;
+}
+
+.whatsapp-reminder .cloud-2 {
+    top: -20px;
+    left: 45%;
+    width: 50px;
+    height: 50px;
+}
+
+.whatsapp-reminder .cloud-3 {
+    top: -8px;
+    right: 80px;
+    width: 35px;
+    height: 35px;
+}
+
+.whatsapp-reminder h5 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #2c3e50;
+    position: relative;
+    z-index: 10;
+    text-shadow: none;
+}
+
+/* Icono de WhatsApp en la nube */
+.whatsapp-reminder .whatsapp-icon {
+    position: absolute;
+    top: -12px;
+    right: 15px;
+    font-size: 24px;
+    z-index: 15;
+    background: #25d366;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-reminder .whatsapp-icon::before {
+    content: '💬';
+    font-size: 16px;
+}
+
+/* Efecto hover para la nube */
+.whatsapp-reminder:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    transition: all 0.4s ease;
+}
+
+.whatsapp-reminder:hover::before,
+.whatsapp-reminder:hover::after {
+    transform: translateY(-2px);
+    transition: all 0.4s ease;
+}
+
+/* Animación de flotación para la nube */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}

@@ -1,0 +1,203 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Compra</title>
+</head>
+
+<body>
+    <div class="factura-contenedor">
+        <div class="info-empresa">
+            <img src="{% static 'images/bolsa.ico' %}" alt="Logo" class="logo-pequeno">
+            <div>
+                NIT: 123456789-0<br>
+                Teléfono del Propietario: 3224880905
+            </div>
+        </div>
+        <table class="table table-info-main">
+            <h3><center>Detalles de la Compra</center></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order_products %}
+                    <tr>
+                        <td>{{ item.product.nombre }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>${{ item.product.precio }}</td>
+                        <td>${{ item.total|floatformat:0 }}</td>
+                    </tr>
+                    {% endfor %}
+                    <tr>
+                        <td colspan="3" style="background:#166d07; color:#fff; font-weight:bold;">Subtotal</td>
+                        <td style="background:#166d07; color:#fff; font-weight:bold;">${{ subtotal|floatformat:0 }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="background:#166d07; color:#fff; font-weight:bold;">IVA (19%)</td>
+                        <td style="background:#166d07; color:#fff; font-weight:bold;">${{ iva_total|floatformat:0 }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" style="background:#166d07; color:#fff; font-weight:bold;">Total a Pagar</td>
+                        <td style="background:#166d07; color:#fff; font-weight:bold;">${{ total_a_pagar|floatformat:0 }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <table class="table table-bordered metodos-table">
+                <tr class="metodos-row">
+                    <th>Método de Pago</th>
+                    <td>
+                        {% if compra.metodo_pago == "neki" %}
+                        <img src="{% static 'images/nequiclar.png' %}" alt="Neki" class="metodo-logo">
+                        Nequi (Referencia: {{ compra.referencia_pago }})
+                        {% elif compra.metodo_pago == "efectivo" %}
+                        <img src="{% static 'images/efectivo.png' %}" alt="Efectivo" class="metodo-logo">
+                        Efectivo
+                        {% else %}
+                        {{ compra.metodo_pago|default:"-" }}
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr class="metodos-row">
+                    <th>Forma de Entrega</th>
+                    <td>
+                        {% if compra.forma_entrega == "domicilio" %}
+                        Domicilio (Dirección: {{ compra.direccion_entrega }})
+                        {% elif compra.forma_entrega == "sede" %}
+                        Sede central
+                        {% else %}
+                        {{ compra.forma_entrega|default:"-" }}
+                        {% endif %}
+                    </td>
+                </tr>
+            </table>
+        <div class="d-flex">
+            {% if user.role == 'admin' %}
+                <a href="{% url 'validacion_compras' %}" class="btn btn-custom">Volver</a>
+            {% else %}
+                <a href="{% url 'volver_a_productos' %}" class="btn btn-custom">Volver</a>
+            {% endif %}
+            <a href="{% url 'generar_pdf' compra.id %}" class="btn btn-custom">Generar PDF</a>
+        </div>
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8f8f8;
+        }
+
+        .factura-contenedor {
+            max-width: 900px;
+            margin: 32px auto 32px auto;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+            padding: 32px 32px 24px 32px;
+        }
+
+        .info-empresa {
+            text-align: center;
+            margin-bottom: 18px;
+            font-weight: bold;
+        }
+
+        .logo-pequeno {
+            height: 32px !important;
+            width: auto !important;
+            max-width: 80px !important;
+            margin-bottom: 8px;
+        }
+
+        .titulo-factura {
+            text-align: center;
+            margin-bottom: 18px;
+            margin-top: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 18px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #166d07;
+            color: #fff;
+        }
+
+        .metodos-table th,
+        .metodos-table td {
+            font-weight: bold;
+            background: #f8f8f8;
+            color: #222;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        .metodo-logo {
+            height: 40px !important;
+            width: auto !important;
+            max-width: 100px !important;
+            display: block;
+            margin: 0 auto 8px auto;
+        }
+
+        .btn-custom {
+            background: #166d07 !important;
+            color: #fff !important;
+            border: none !important;
+            text-decoration: none !important;
+            font-weight: bold;
+            padding: 8px 24px;
+            border-radius: 6px;
+            margin-right: 8px;
+            transition: background 0.2s;
+            display: inline-block;
+        }
+
+        .btn-custom:hover {
+            background: #228B22 !important;
+            color: #fff !important;
+            text-decoration: none !important;
+        }
+
+        .d-flex {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 700px) {
+            .factura-contenedor {
+                padding: 10px;
+            }
+
+            table,
+            th,
+            td {
+                font-size: 12px;
+            }
+        }
+    </style>
+</body>
+
+</html>

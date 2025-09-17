@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Cliente</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/Formulario.css' %}">
+    <link rel="icon" href="{% static 'images/bolsa.ico' %}" type="image/x-icon">
+    <!-- Añadido Font Awesome para los iconos de ojo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+</head>
+<body>
+    <div id="loader-screen">
+        <div class="loader"></div>
+    </div>
+    <div id="main-content">
+    <section class="form-register">
+        <h4>Registro cliente</h4>
+        <form method="post">
+            {% csrf_token %}
+            <p>
+                <label for="id_nombre">Nombre completo:</label>
+                {{ form.nombre }}
+            </p>
+            <p>
+                <label for="id_apellido">Apellido completo:</label>
+                {{ form.apellido }}
+            </p>
+            <p>
+                <label for="id_cec">CC:</label>
+                {{ form.CC }}
+            </p>
+            <p>
+                <label for="id_email">Email:</label>
+                {{ form.email }}
+            </p>
+            <p>
+                <label for="id_telefono">Teléfono:</label>
+                {{ form.telefono }}
+            </p>
+            <p>
+                <label for="id_role">Rol:</label>
+                {{ form.roleCliente }}
+            </p>
+            <p class="password-container">
+                <label for="id_password1">Contraseña:</label>
+                {{ form.password1 }}
+                <i id="togglePassword" class="toggle-password fas fa-eye" title="Mostrar contraseña"></i>
+                <span>
+                    • Su contraseña no puede asemejarse tanto a su otra información personal.<br>
+                    • Su contraseña debe contener al menos 8 caracteres.<br>
+                    • Su contraseña no puede ser una clave utilizada comúnmente.<br>
+                    • Su contraseña no puede ser completamente numérica.
+                </span>
+            </p>
+            <p class="password-container">
+                <label for="id_password2">Confirmar contraseña:</label>
+                {{ form.password2 }}
+                <i id="toggleConfirmPassword" class="toggle-password fas fa-eye" title="Mostrar contraseña"></i>
+                <span>Para verificar, introduzca la misma contraseña anterior.</span>
+            </p>
+            <button type="submit">Registrarse</button>
+        </form>
+        <label class="checkbox">
+            <input id="terminosCheckbox" type="checkbox" required>
+            Estoy de acuerdo con <a href="{% url 'terminos_condiciones' %}">Términos y condiciones</a>
+        </label>
+
+        <p><a href="{% url 'login' %}">¿Ya tengo cuenta?</a></p>
+    </section>
+    </div>
+    <script src="{% static 'js/Formulario.js' %}"></script>
+    <script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    e.preventDefault(); // SIEMPRE detenemos el envío automático
+    const form = this;
+    const emailInput = form.querySelector('input[name="email"]');
+    const ccInput = form.querySelector('input[name="CC"]');
+
+    // Validación de correo
+    if (emailInput) {
+        const email = emailInput.value.trim();
+        if (!email.includes('@') || !email.endsWith('.com')) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Correo inválido',
+                text: 'El correo debe contener "@" y terminar en ".com".'
+            });
+            return;
+        }
+    }
+
+    // Validación de CC (AJAX)
+    if (ccInput) {
+        const cc = ccInput.value.trim();
+        fetch(`/validar_cc/?cc=${encodeURIComponent(cc)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.existe) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Usuario ya registrado',
+                        text: `El usuario con CC ${cc} ya está registrado.`
+                    });
+                } else {
+                    form.submit(); // Solo aquí se envía el formulario
+                }
+            })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'No se pudo validar el usuario. Intenta de nuevo.'
+                });
+            });
+    } else {
+        form.submit(); // Si no hay campo CC, igual enviamos
+    }
+});
+</script>
+</body>
+</html>

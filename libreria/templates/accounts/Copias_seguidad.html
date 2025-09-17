@@ -1,0 +1,378 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copias de Seguridad</title>
+	<link href="{% static 'css/interno.css' %}" rel="stylesheet">
+    <link href="{% static 'css/custom9.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'images/bolsa.ico' %}" type="image/x-icon">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile">
+                <div class="profile-image">
+                    <img src="{% static 'images/Admin.png' %}" alt="Perfil Admin">
+                </div>
+                <h3>{{ request.user.nombre }}</h3>
+                <p>Administrador</p>
+            </div>
+            <nav class="menu">
+                <ul>
+                    <li><a href="{% url 'dashboard' %}"  data-page="dashboard">
+                        <i class="material-icons">groups</i> 
+                        <span>PRINCIPAL</span>
+                    </a></li>
+                    <li><a href="{% url 'productos2' %}" data-page="productos">
+                        <i class="material-icons">inventory_2</i> 
+                        <span>PRODUCTOS</span>
+                    </a></li>
+                    <li><a href="{% url 'inventario' %}" data-page="inventario">
+                        <i class="material-icons">inventory</i> 
+                        <span>INVENTARIO</span>
+                    </a></li>
+                    <li><a href="{% url 'listar_clientes' %}"  data-page="dashboard">
+                        <i class="material-icons">groups</i> 
+                        <span>CLIENTES</span>
+                    </a></li>
+                    <li><a href="{% url 'listar_proveedor' %}" data-page="dashboard">
+                        <i class="material-icons">groups</i> 
+                        <span>PROVEEDORES</span>
+                    </a></li>
+                    <li><a href="{% url 'trabajadores' %}"  data-page="dashboard">
+                        <i class="material-icons">groups</i> 
+                        <span>TRABAJADORES</span>
+                    </a></li>
+                    <li><a href="{% url 'factura' %}" data-page="recibos">
+                        <i class="material-icons">receipt</i> 
+                        <span>SOPORTE DE PAGOS</span>
+                    </a></li>
+                    <li><a href="{% url 'validacion_compras' %}" data-page="estado-compra">
+                        <i class="material-icons">payment</i> 
+                        <span>ESTADO DE COMPRA</span>
+                    </a></li>
+                    <li><a href="{% url 'copias_seguridad' %}" data-page="estado-compra">
+                        <i class="material-icons">payment</i> 
+                        <span>COPIAS SEGURIDAD</span>
+                    </a></li>
+                </ul>
+            </nav>
+        </aside>
+        </aside>
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Gestión Copias de Seguridad</h1>
+                <div class="user-menu">
+
+                    <div id="accesibilidad-container">
+                    <button title="Accesibilidad" class="Accesibilidad">
+                        <img src="{% static 'images/accesibilidad.png' %}" class="icono-accesibilidad">
+                    </button>
+                   </div>
+
+                     <button title="Manual Administrador" class="boton-manual-administrador" onclick="descargarManual()">
+                        <img src="{% static 'images/signo.png' %}" alt="Icono Manual" class="icono-manual">
+                    </button>
+                    <i title="Cerrar Sesión" class="material-icons logout-icon">power_settings_new</i>
+                </div>
+            </header>
+
+            <style>
+
+       .btn-restore {
+    background-color: #ffc107;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+.btn-restore:hover {
+    background-color: #e0a800;
+}
+
+.containercopias {
+    max-width: 800px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+}
+
+h1, h2 {
+    color: #333;
+    text-align: center;
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    margin-bottom: 1rem;
+}
+
+p {
+    text-align: center;
+    color: #666;
+    font-size: clamp(0.9rem, 2.5vw, 1rem);
+    line-height: 1.5;
+}
+
+form {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: clamp(14px, 2.5vw, 16px);
+    transition: background-color 0.3s ease;
+    width: 100%;
+    max-width: 200px;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+.backup-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.backup-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f9f9f9;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.backup-info {
+    flex: 1;
+    min-width: 200px;
+    word-break: break-word;
+}
+
+.backup-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.btn-download, .btn-delete, .btn-restore {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: white;
+    display: inline-block;
+    text-align: center;
+    min-width: 80px;
+    transition: all 0.3s ease;
+}
+
+.btn-download {
+    background-color: #28a745;
+}
+
+.btn-download:hover {
+    background-color: #218838;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.copia {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: clamp(14px, 2.5vw, 16px);
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+    margin-top: 15px;
+    width: 100%;
+    max-width: 250px;
+}
+
+.copia:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.copia:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+.copia:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* Media Queries para diferentes tamaños de pantalla */
+
+/* Tablets */
+@media (max-width: 768px) {
+    .containercopias {
+        margin: 10px;
+        padding: 15px;
+        width: calc(100% - 20px);
+    }
+    
+    .backup-list li {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 15px 10px;
+    }
+    
+    .backup-info {
+        margin-bottom: 10px;
+        min-width: auto;
+    }
+    
+    .backup-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .btn-download, .btn-delete, .btn-restore {
+        flex: 1;
+        min-width: 100px;
+        margin: 2px;
+    }
+}
+
+/* Móviles */
+@media (max-width: 480px) {
+    .containercopias {
+        margin: 5px;
+        padding: 10px;
+        width: calc(100% - 10px);
+    }
+    
+    h1, h2 {
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .backup-list li {
+        padding: 10px;
+        margin: 8px 0;
+    }
+    
+    .backup-actions {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .btn-download, .btn-delete, .btn-restore {
+        width: 100%;
+        min-width: auto;
+        margin: 2px 0;
+        padding: 10px;
+    }
+    
+    .btn, .copia {
+        padding: 10px 20px;
+        font-size: 14px;
+        width: 100%;
+        max-width: none;
+    }
+}
+
+/* Pantallas muy pequeñas */
+@media (max-width: 320px) {
+    .containercopias {
+        padding: 8px;
+    }
+    
+    h1, h2 {
+        font-size: 1.2rem;
+    }
+    
+    p {
+        font-size: 0.85rem;
+    }
+    
+    .backup-list li {
+        padding: 8px;
+    }
+    
+    .btn-download, .btn-delete, .btn-restore {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+}
+    </style>
+    <div class="containercopias">
+        <h1>Copias de Seguridad</h1>
+        <p>Realiza una copia de seguridad de la base de datos para proteger tus datos importantes.</p>
+        <form method="POST" action="{% url 'crear_copia_seguridad' %}">
+            {% csrf_token %}
+            <button type="submit" class="copia">Crear Copia de Seguridad</button>
+        </form>
+        <div class="backup-list">
+            <h2>Copias de Seguridad Disponibles</h2>
+            <ul>
+                {% for backup in backups %}
+                <li>
+                    {{ backup.name }} - {{ backup.created_at }}
+                    <a href="{% url 'descargar_copia_seguridad' backup.id %}" class="btn-download">Descargar</a>
+                    <a href="{% url 'eliminar_copia_seguridad' backup.id %}" class="btn-delete" onclick="return confirm('¿Estás seguro de eliminar esta copia de seguridad?');">Eliminar</a>
+                    <a href="{% url 'restaurar_copia_seguridad' backup.id %}" class="btn-restore" onclick="return confirm('¿Estás seguro de restaurar esta copia de seguridad?');">Restaurar</a>
+                </li>
+                {% empty %}
+                    <li>No hay copias de seguridad disponibles.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script src="{% static 'js/siennadmin.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{% static 'js/manualadministrador.js' %}"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    {% if messages %}
+        {% for message in messages %}
+            Swal.fire({
+                icon: "{% if message.tags == 'success' %}success{% elif message.tags == 'error' %}error{% else %}info{% endif %}",
+                title: "{{ message|escapejs }}",
+                showConfirmButton: false,
+                timer: 2500
+            });
+        {% endfor %}
+    {% endif %}
+});
+</script>
+</body>
+</html>

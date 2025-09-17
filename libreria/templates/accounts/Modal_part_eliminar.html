@@ -1,0 +1,105 @@
+<style>
+  .btn-eliminar {
+    background-color: red;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 10px;
+    display: inline-block;
+    text-align: center;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-eliminar:hover {
+    background-color: rgb(206, 0, 0);
+  }
+
+  .btn-cancelar {
+    background-color: #bababa;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 10px;
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+  }
+
+  .btn-cancelar:hover {
+    background-color: rgb(165, 164, 164);
+  }
+
+  .modal-eliminar {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.3);
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .modal-eliminar .modal-content {
+    margin: 0;
+    background-color: #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 34px;
+    border-radius: 5px;
+    width: 90%;
+    max-width: 513px;
+    text-align: center;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: rgba(0, 0, 0, 0.3);
+  }
+  
+  .modal-eliminar .modal-content h2 {
+    color: #545454;
+    margin-bottom: 20px;
+  }
+  
+  .modal-eliminar .btn-eliminar {
+    background-color: #ff0800;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-eliminar .btn-eliminar:hover {
+    background-color: rgb(206, 0, 0);
+  }
+  
+  .modal-eliminar .btn-cancelar {
+    background-color: #919191;
+    color: black;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin: 10px;
+    display: inline-block;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .modal-eliminar .btn-cancelar:hover {
+    background-color: #747474;
+  }
+
+</style>
