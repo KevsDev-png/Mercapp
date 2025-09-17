@@ -1,4 +1,4 @@
-<img align="left" alt="Min" width="300"  src="./libreria/static/images/bolsa.png">
+<img align="left" alt="Min" width="200"  src="./libreria/static/images/bolsa.png">
 
 <div align="justify">
   Mercapp es una plataforma digital diseñada para disminur la brecha entre comprador, productor y consumidor
