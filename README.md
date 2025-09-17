@@ -2,11 +2,13 @@
 
 <div align="justify">
   Mercapp es una plataforma digital diseñada para disminur la brecha entre comprador, productor y consumidor
-  al no utilizar servicios de mayoristas, este proyecto fue de un repositirio anterior, ,<br>
+  al no utilizar servicios de mayoristas, este proyecto fue de un repositirio anterior,estuve encargado del frontend,<br>
   lo hice con dos integrantes:<br>
+  <br>
   
   Thiago Lopez<br> 
   Jhon Perez Arcila<br>
+  
 </div>
 
 
